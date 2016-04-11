@@ -1,4 +1,4 @@
-﻿//Author: David Barnes
+//Author: David Barnes
 //CIS 237
 //Assignment 1
 using System;
@@ -11,7 +11,7 @@ namespace assignment1
 {
     class UserInterface
     {
-        const int maxMenuChoice = 5;
+        const int maxMenuChoice = 7;
         //---------------------------------------------------
         //Public Methods
         //---------------------------------------------------
@@ -139,6 +139,84 @@ namespace assignment1
             return new string[] { id, description, pack, price, active };
         }
 
+        //Get New Item Information From The User.
+        public string[] UpdateItemInformation()
+        {
+            //Description =====================
+            Console.WriteLine("What is the new item's Description?");
+            Console.Write("> ");
+            string description = Console.ReadLine();
+
+            //Pack =====================
+            Console.WriteLine("What is the new item's Pack?");
+            Console.Write("> ");
+            string pack = Console.ReadLine();
+
+            //Price =====================
+            bool isDecimal = false;     //bool to be used for the while loop
+            string price = null;
+            while (isDecimal == false)  //while loop to ensure user enters a value that can be casted into a decimal
+            {
+                Console.WriteLine("What is the new item's Price?");
+                Console.Write("> ");
+                price = Console.ReadLine();
+                try
+                {
+                    Convert.ToDecimal(price);
+                    isDecimal = true;
+                }
+                catch
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Error! Please enter a valid number.");
+                    Console.WriteLine("Press Enter to Continue");
+                    Console.ReadLine();
+                }
+            }
+
+            //Active =====================
+            string active = null;               //string to use in Program for a bool cast
+            bool isValid = false;               //bool to use for the while loop
+            while (isValid == false)            //while loop to ensure the user enters a string that can be converted to a bool
+            {
+                Console.WriteLine("Is the new item active?" + Environment.NewLine + "Please enter 'true' or 'false'.");
+                Console.Write("> ");
+                string compareString = Console.ReadLine();
+                if (compareString.ToUpper() == "TRUE")      //if user enters true, regardless of case
+                {
+                    active = "true";
+                    isValid = true;
+                }
+                else if (compareString.ToUpper() == "FALSE")    //if the user enters false, regardless of case
+                {
+                    active = "false";
+                    isValid = true;
+                }
+                else
+                {
+                    Console.WriteLine("Error: Invalid Input.");
+                    Console.WriteLine("Press Enter to Continue");
+                    Console.ReadLine();
+                }
+            }
+
+            Console.WriteLine("Properties of the Updated Wine:");
+            Console.WriteLine("Description: " + description);
+            Console.WriteLine("Pack: " + pack);
+            Console.WriteLine("Price: " + price);
+            Console.WriteLine("Active: " + active);
+            Console.WriteLine();
+
+            //the user's entered properties are returned to Program
+            return new string[] { description, pack, price, active };
+        }
+
+        public string WineToUpdate()
+        {
+            Console.WriteLine("Plese enter the ID of the Wine you would like to update.");
+            return Console.ReadLine();
+        }
+
         //Display Import Success
         public void DisplayImportSuccess()
         {
@@ -224,7 +302,8 @@ namespace assignment1
             Console.WriteLine("3. Search For An Item");
             Console.WriteLine("4. Add New Item To The List");
             Console.WriteLine("5. Delete An Item from the List");
-            Console.WriteLine("6. Exit Program");
+            Console.WriteLine("6. Update an Existing Item in the List");
+            Console.WriteLine("7. Exit Program");
         }
 
         //Display the Prompt
@@ -284,7 +363,7 @@ namespace assignment1
             foreach (Beverage beverage in beverageEntities.Beverages)
             {
                 //console prints the all the properties of each element
-                Console.WriteLine(beverage.id + " " + beverage.name.Trim() + " " + beverage.pack + " " + beverage.price.ToString("C") + " " + beverage.active);
+                Console.WriteLine(beverage.id + " " + beverage.name + " " + beverage.pack + " " + beverage.price.ToString("C") + " " + beverage.active);
             }
         }
 
@@ -306,6 +385,14 @@ namespace assignment1
         {
             Console.WriteLine();
             Console.WriteLine("Error! No wine with that ID was found.");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
+        }
+
+        public void WineUpdateSuccess(string ID)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Wine with ID " + ID + " has been successfully updated.");
             Console.WriteLine("Press Enter to Continue");
             Console.ReadLine();
         }
