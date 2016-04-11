@@ -3,6 +3,7 @@
 ## Due 4-11-2016
 
 ## Author
+Joshua Sziede
 
 ## Description
 
@@ -61,6 +62,7 @@ Solution Requirements:
 
 
 ## Outside Resources Used
+None besides the in-class 5 program.
 
 ## Known Problems, Issues, And/Or Errors in the Program
 
