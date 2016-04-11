@@ -63,18 +63,80 @@ namespace assignment1
         //Get New Item Information From The User.
         public string[] GetNewItemInformation()
         {
+            //ID =====================
             Console.WriteLine();
-            Console.WriteLine("What is the new items Id?");
+            Console.WriteLine("What is the new item's Id?");
             Console.Write("> ");
             string id = Console.ReadLine();
-            Console.WriteLine("What is the new items Description?");
+
+            //Description =====================
+            Console.WriteLine("What is the new item's Description?");
             Console.Write("> ");
             string description = Console.ReadLine();
-            Console.WriteLine("What is the new items Pack?");
+
+            //Pack =====================
+            Console.WriteLine("What is the new item's Pack?");
             Console.Write("> ");
             string pack = Console.ReadLine();
 
-            return new string[] { id, description, pack };
+            //Price =====================
+            bool isDecimal = false;     //bool to be used for the while loop
+            string price = null; 
+            while (isDecimal == false)  //while loop to ensure user enters a value that can be casted into a decimal
+            {
+                Console.WriteLine("What is the new item's Price?");
+                Console.Write("> ");
+                price = Console.ReadLine();
+                try
+                {
+                    Convert.ToDecimal(price);
+                    isDecimal = true;
+                }
+                catch
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Error! Please enter a valid number.");
+                    Console.WriteLine("Press Enter to Continue");
+                    Console.ReadLine();
+                }
+            }
+
+            //Active =====================
+            string active = null;               //string to use in Program for a bool cast
+            bool isValid = false;               //bool to use for the while loop
+            while (isValid == false)            //while loop to ensure the user enters a string that can be converted to a bool
+            {
+                Console.WriteLine("Is the new item active?" + Environment.NewLine + "Please enter 'true' or 'false'.");
+                Console.Write("> ");
+                string compareString = Console.ReadLine();
+                if (compareString.ToUpper() == "TRUE")      //if user enters true, regardless of case
+                {
+                    active = "true";
+                    isValid = true;
+                }
+                else if (compareString.ToUpper() == "FALSE")    //if the user enters false, regardless of case
+                {
+                    active = "false";
+                    isValid = true;
+                }
+                else
+                {
+                    Console.WriteLine("Error: Invalid Input.");
+                    Console.WriteLine("Press Enter to Continue");
+                    Console.ReadLine();
+                }
+            }
+
+            Console.WriteLine("Properties of the new Wine:");
+            Console.WriteLine("ID: " + id);
+            Console.WriteLine("Description: " + description);
+            Console.WriteLine("Pack: " + pack);
+            Console.WriteLine("Price: " + price);
+            Console.WriteLine("Active: " + active);
+            Console.WriteLine();
+
+            //the user's entered properties are returned to Program
+            return new string[] { id, description, pack, price, active };
         }
 
         //Display Import Success
@@ -82,13 +144,17 @@ namespace assignment1
         {
             Console.WriteLine();
             Console.WriteLine("Wine List Has Been Imported Successfully");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
 
         //Display Import Error
         public void DisplayImportError()
         {
             Console.WriteLine();
-            Console.WriteLine("There was an error importing the CSV");
+            Console.WriteLine("There was an error reading the database.");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
 
         //Display All Items
@@ -106,13 +172,14 @@ namespace assignment1
         {
             Console.WriteLine();
             Console.WriteLine("There are no items in the list to print");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
 
         //Display Item Found Success
         public void DisplayItemFound(string itemInformation)
         {
             Console.WriteLine();
-            Console.WriteLine("Item Found!");
             Console.WriteLine(itemInformation);
         }
 
@@ -121,6 +188,8 @@ namespace assignment1
         {
             Console.WriteLine();
             Console.WriteLine("A Match was not found");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
 
         //Display Add Wine Item Success
@@ -128,6 +197,8 @@ namespace assignment1
         {
             Console.WriteLine();
             Console.WriteLine("The Item was successfully added");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
 
         //Display Item Already Exists Error
@@ -148,11 +219,12 @@ namespace assignment1
             Console.WriteLine();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine();
-            Console.WriteLine("1. Load Wine List From CSV");
+            Console.WriteLine("1. Load Wine List from the Database");
             Console.WriteLine("2. Print The Entire List Of Items");
             Console.WriteLine("3. Search For An Item");
             Console.WriteLine("4. Add New Item To The List");
-            Console.WriteLine("5. Exit Program");
+            Console.WriteLine("5. Delete An Item from the List");
+            Console.WriteLine("6. Exit Program");
         }
 
         //Display the Prompt
@@ -202,6 +274,40 @@ namespace assignment1
 
             //Return the reutrnValue
             return returnValue;
+
+        }
+
+        //prints the entire database of wines
+        public void PrintDatabase(BeverageJSziedeEntities beverageEntities)
+        {
+            //foreach to process each element
+            foreach (Beverage beverage in beverageEntities.Beverages)
+            {
+                //console prints the all the properties of each element
+                Console.WriteLine(beverage.id + " " + beverage.name.Trim() + " " + beverage.pack + " " + beverage.price.ToString("C") + " " + beverage.active);
+            }
+        }
+
+        public string WineToBeDeleted()
+        {
+            Console.WriteLine("Plese enter the ID of the Wine you would like to delete.");
+            return Console.ReadLine();
+        }
+
+        public void WineDeletionConfirmation(Beverage beverage)
+        {
+            Console.WriteLine("Deleting " + beverage.name.Trim() + ".");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
+
+        }
+
+        public void WineDeletionError()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Error! No wine with that ID was found.");
+            Console.WriteLine("Press Enter to Continue");
+            Console.ReadLine();
         }
     }
 }
