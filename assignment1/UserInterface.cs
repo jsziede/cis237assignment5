@@ -1,4 +1,4 @@
-﻿//Author: David Barnes
+//Author: David Barnes
 //CIS 237
 //Assignment 1
 using System;

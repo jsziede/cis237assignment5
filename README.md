@@ -62,6 +62,7 @@ Solution Requirements:
 None besides the in-class 5 program.
 
 ## Outside Resources Used
+None besides the in-class 5 program.
 
 ## Known Problems, Issues, And/Or Errors in the Program
 
