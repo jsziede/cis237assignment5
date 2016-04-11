@@ -3,6 +3,7 @@
 ## Due 4-11-2016
 
 ## Author
+Joshua Sziede
 
 ## Description
 
@@ -58,7 +59,7 @@ Solution Requirements:
 * UI Class to handle I/O
 
 ### Notes
-
+None besides the in-class 5 program.
 
 ## Outside Resources Used
 
