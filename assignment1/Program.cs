@@ -38,7 +38,7 @@ namespace assignment1
             //This is the 'primer' run of displaying and getting.
             int choice = userInterface.DisplayMenuAndGetResponse();
 
-            while (choice != 6)
+            while (choice != 7)
             {
                 switch (choice)
                 {
@@ -120,6 +120,37 @@ namespace assignment1
                         else
                         {
                             //user is notified that the wine was not deleted
+                            userInterface.WineDeletionError();
+                        }
+                        break;
+
+                    case 6:
+                        //update a wine from the list based on its ID
+                        string itemToUpdate = userInterface.WineToUpdate();
+                        if (wineItemCollection.FindById(itemToUpdate) != null)
+                        {
+                            //user is requested to supply the parameters of the wine to be updated
+                            string[] updateItemInformation = userInterface.UpdateItemInformation();
+
+                            //buffers are created to store the new and old wine data
+                            Beverage beverageToUpdate = wineItemCollection.UpdateWine(itemToUpdate, updateItemInformation[0], updateItemInformation[1], Convert.ToDecimal(updateItemInformation[2]), Convert.ToBoolean(updateItemInformation[3]));
+                            Beverage beverageToReplace = beverageEntities.Beverages.Where(beverage => beverage.id == itemToUpdate).First();
+
+                            //the outdated wine is deleted
+                            beverageEntities.Beverages.Remove(beverageToReplace);
+
+                            //the outdated wine is set to the updated wine
+                            beverageToReplace = beverageToUpdate;
+
+                            //the updated wine is added
+                            beverageEntities.Beverages.Add(beverageToUpdate);
+                            beverageEntities.SaveChanges();
+
+                            userInterface.WineUpdateSuccess(itemToUpdate);
+                        }
+                        else
+                        {
+                            //the message is still appropriate even though we are not deleting
                             userInterface.WineDeletionError();
                         }
                         break;

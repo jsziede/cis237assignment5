@@ -48,7 +48,7 @@ namespace assignment1
             }
 
             //return all the properties of the matching item
-            returnString = beverageIDToFind.id + " " + beverageIDToFind.name + " " + beverageIDToFind.pack + " " + beverageIDToFind.price + " " + beverageIDToFind.active;
+            returnString = beverageIDToFind.id + " " + beverageIDToFind.name.Trim() + " " + beverageIDToFind.pack + " " + beverageIDToFind.price.ToString("C") + " " + beverageIDToFind.active;
             return returnString;
         }
 
@@ -73,6 +73,22 @@ namespace assignment1
         public Beverage DeleteWine(BeverageJSziedeEntities beverageEntities, string ID)
         {
             return beverageEntities.Beverages.Where(beverage => beverage.id == ID).First();
+        }
+
+        public Beverage UpdateWine(string id, string name, string pack, decimal price, bool active)
+        {
+            //create new empty beverage to be added
+            Beverage beverageToUpdate = beverageEntities.Beverages.Where(beverage => beverage.id == id).First();
+
+            //assign properties to the newly created beverage
+            beverageToUpdate.id = id;
+            beverageToUpdate.name = name;
+            beverageToUpdate.pack = pack;
+            beverageToUpdate.price = price;
+            beverageToUpdate.active = active;
+
+
+            return beverageToUpdate;
         }
     }
 }
